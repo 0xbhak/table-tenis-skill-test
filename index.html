@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.jpg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tes Keterampilan Tenis Meja</title>
+  </head>
+  <body class="bg-slate-200 text-slate-800 font-sans relative overflow-x-hidden">
+    <!-- Dynamic Background -->
+    <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+      <div class="absolute -top-[10%] -left-[10%] w-[40rem] h-[40rem] rounded-full bg-indigo-600/20 blur-[100px] animate-blob"></div>
+      <div class="absolute top-[20%] -right-[10%] w-[35rem] h-[35rem] rounded-full bg-emerald-600/20 blur-[100px] animate-blob animation-delay-2000"></div>
+      <div class="absolute -bottom-[20%] left-[20%] w-[45rem] h-[45rem] rounded-full bg-blue-600/20 blur-[100px] animate-blob animation-delay-4000"></div>
+    </div>
+
+    <div id="app" class="max-w-4xl mx-auto p-4 md:p-8" style="opacity: 0; transition: opacity 0.5s ease-in-out;">
+      <header class="mb-8 text-center flex flex-col items-center relative">
+        <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mb-2" data-i18n="title">Tes Keterampilan Tenis Meja</h1>
+        <p class="text-slate-600" data-i18n="subtitle">Hitung skor tes keterampilan bermain tenis meja</p>
+      </header>
+
+      <form id="scoreForm" class="space-y-8">
+        <!-- Personal Info Section -->
+        <section class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+          <h2 class="text-xl font-semibold mb-4 text-slate-800 border-b pb-2 border-slate-100 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+            <span data-i18n="data_peserta">Data Peserta</span>
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+              <label for="name" class="block text-sm font-medium text-slate-700 mb-1" data-i18n="nama_lengkap">Nama Lengkap</label>
+              <input type="text" id="name" name="name" required
+                class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"
+                placeholder="Masukkan nama" data-i18n-placeholder="placeholder_nama">
+            </div>
+            <div>
+              <label for="age" class="block text-sm font-medium text-slate-700 mb-1" data-i18n="umur">Umur</label>
+              <input type="number" id="age" name="age" required min="1"
+                class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"
+                placeholder="Contoh: 20" data-i18n-placeholder="placeholder_umur">
+            </div>
+            <div>
+              <label for="gender" class="block text-sm font-medium text-slate-700 mb-1" data-i18n="jenis_kelamin">Jenis Kelamin</label>
+              <select id="gender" name="gender" required
+                class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition bg-white">
+                <option value="" disabled selected data-i18n="pilih">Pilih...</option>
+                <option value="L" data-i18n="laki_laki">Laki-laki</option>
+                <option value="P" data-i18n="perempuan">Perempuan</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
+        <!-- Gerak Section -->
+        <section class="relative bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+          <h2 class="text-xl font-semibold mb-4 text-slate-800 border-b pb-2 border-slate-100 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span data-i18n="tes_gerak">Tes Gerak</span>
+          </h2>
+          <div class="absolute top-6 right-6 font-semibold text-slate-700 text-sm hidden md:block" id="gerak-avg-container">
+            <span data-i18n="skor_rata_rata">Skor rata-rata</span> : <span id="score-gerak-avg" class="text-indigo-600 font-bold">-</span>
+          </div>
+          <div class="grid grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Items: Servis, Smash, Push, Drive, Chop, Block -->
+            
+            <!-- Servis -->
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <label for="gerak-servis" class="block text-sm font-medium text-slate-700" data-i18n="servis">Servis</label>
+                <span id="class-gerak-servis" class="text-xs font-bold text-slate-400"></span>
+              </div>
+              <input type="number" id="gerak-servis" name="gerak_servis" min="0" placeholder="0"
+                class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition">
+            </div>
+             <!-- Smash -->
+             <div>
+              <div class="flex justify-between items-center mb-1">
+                <label for="gerak-smash" class="block text-sm font-medium text-slate-700" data-i18n="smash">Smash</label>
+                <span id="class-gerak-smash" class="text-xs font-bold text-slate-400"></span>
+              </div>
+              <input type="number" id="gerak-smash" name="gerak_smash" min="0" placeholder="0"
+                class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition">
+            </div>
+             <!-- Push -->
+             <div>
+              <div class="flex justify-between items-center mb-1">
+                <label for="gerak-push" class="block text-sm font-medium text-slate-700" data-i18n="push">Push</label>
+                <span id="class-gerak-push" class="text-xs font-bold text-slate-400"></span>
+              </div>
+              <input type="number" id="gerak-push" name="gerak_push" min="0" placeholder="0"
+                class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition">
+            </div>
+             <!-- Drive -->
+             <div>
+              <div class="flex justify-between items-center mb-1">
+                <label for="gerak-drive" class="block text-sm font-medium text-slate-700" data-i18n="drive">Drive</label>
+                <span id="class-gerak-drive" class="text-xs font-bold text-slate-400"></span>
+              </div>
+              <input type="number" id="gerak-drive" name="gerak_drive" min="0" placeholder="0"
+                class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition">
+            </div>
+             <!-- Chop -->
+             <div>
+              <div class="flex justify-between items-center mb-1">
+                <label for="gerak-chop" class="block text-sm font-medium text-slate-700" data-i18n="chop">Chop</label>
+                <span id="class-gerak-chop" class="text-xs font-bold text-slate-400"></span>
+              </div>
+              <input type="number" id="gerak-chop" name="gerak_chop" min="0" placeholder="0"
+                class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition">
+            </div>
+             <!-- Block -->
+             <div>
+              <div class="flex justify-between items-center mb-1">
+                <label for="gerak-block" class="block text-sm font-medium text-slate-700" data-i18n="block">Block</label>
+                <span id="class-gerak-block" class="text-xs font-bold text-slate-400"></span>
+              </div>
+              <input type="number" id="gerak-block" name="gerak_block" min="0" placeholder="0"
+                class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition">
+            </div>
+          </div>
+        </section>
+
+        <!-- Hasil Section -->
+        <section class="relative bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+          <h2 class="text-xl font-semibold mb-4 text-slate-800 border-b pb-2 border-slate-100 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span data-i18n="hasil_tes">Hasil Tes</span>
+          </h2>
+          <div class="absolute top-6 right-6 font-semibold text-slate-700 text-sm hidden md:block" id="hasil-avg-container">
+            <span data-i18n="skor_rata_rata">Skor rata-rata</span> : <span id="score-hasil-avg" class="text-indigo-600 font-bold">-</span>
+          </div>
+          <div class="grid grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Servis -->
+            <div>
+              <div class="flex justify-between items-center mb-1">
+                <label for="hasil-servis" class="block text-sm font-medium text-slate-700" data-i18n="servis">Servis</label>
+                <span id="class-hasil-servis" class="text-xs font-bold text-slate-400"></span>
+              </div>
+              <input type="number" id="hasil-servis" name="hasil_servis" min="0" placeholder="0"
+                class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+            </div>
+             <!-- Smash -->
+             <div>
+              <div class="flex justify-between items-center mb-1">
+                <label for="hasil-smash" class="block text-sm font-medium text-slate-700" data-i18n="smash">Smash</label>
+                <span id="class-hasil-smash" class="text-xs font-bold text-slate-400"></span>
+              </div>
+              <input type="number" id="hasil-smash" name="hasil_smash" min="0" placeholder="0"
+                class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+            </div>
+             <!-- Push -->
+             <div>
+              <div class="flex justify-between items-center mb-1">
+                <label for="hasil-push" class="block text-sm font-medium text-slate-700" data-i18n="push">Push</label>
+                <span id="class-hasil-push" class="text-xs font-bold text-slate-400"></span>
+              </div>
+              <input type="number" id="hasil-push" name="hasil_push" min="0" placeholder="0"
+                class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+            </div>
+             <!-- Drive -->
+             <div>
+              <div class="flex justify-between items-center mb-1">
+                <label for="hasil-drive" class="block text-sm font-medium text-slate-700" data-i18n="drive">Drive</label>
+                <span id="class-hasil-drive" class="text-xs font-bold text-slate-400"></span>
+              </div>
+              <input type="number" id="hasil-drive" name="hasil_drive" min="0" placeholder="0"
+                class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+            </div>
+             <!-- Chop -->
+             <div>
+              <div class="flex justify-between items-center mb-1">
+                <label for="hasil-chop" class="block text-sm font-medium text-slate-700" data-i18n="chop">Chop</label>
+                <span id="class-hasil-chop" class="text-xs font-bold text-slate-400"></span>
+              </div>
+              <input type="number" id="hasil-chop" name="hasil_chop" min="0" placeholder="0"
+                class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+            </div>
+             <!-- Block -->
+             <div>
+              <div class="flex justify-between items-center mb-1">
+                <label for="hasil-block" class="block text-sm font-medium text-slate-700" data-i18n="block">Block</label>
+                <span id="class-hasil-block" class="text-xs font-bold text-slate-400"></span>
+              </div>
+              <input type="number" id="hasil-block" name="hasil_block" min="0" placeholder="0"
+                class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition">
+            </div>
+          </div>
+        </section>
+
+        <div class="flex flex-col sm:flex-row justify-end pt-4 gap-3 sm:gap-4">
+          <button type="button" id="langToggleBtn" class="w-full sm:w-auto bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold py-3 px-6 rounded-lg shadow-sm border border-indigo-200 transition duration-200 transform hover:-translate-y-0.5 flex items-center justify-center sm:justify-start">
+            <span id="langIcon" class="flex items-center mr-2">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 rounded-full shadow-sm" viewBox="0 0 512 512"><path fill="#e70011" d="M0 0h512v256H0z"/><path fill="#fff" d="M0 256h512v256H0z"/></svg>
+            </span>
+            <span id="langLabel">Indonesia</span>
+          </button>
+          <button type="button" id="resetBtn" class="w-full sm:w-auto bg-white hover:bg-slate-50 text-slate-700 font-semibold py-3 px-8 rounded-lg shadow-md border border-slate-200 transition duration-200 transform hover:-translate-y-0.5" data-i18n="reset">
+            Reset
+          </button>
+          <button type="submit" class="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-8 rounded-lg shadow-md transition duration-200 transform hover:-translate-y-0.5" data-i18n="hitung_skor">
+            Hitung Skor
+          </button>
+        </div>
+      </form>
+      
+      <!-- Placeholder for Results (future logic) -->
+      <div id="resultOutput" class="mt-8 hidden">
+        <section class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-indigo-500">
+           <h3 class="text-lg font-bold text-slate-900 mb-2" data-i18n="hasil_perhitungan">Hasil Perhitungan</h3>
+           <p class="text-slate-600" data-i18n="logic_not_implemented">Logic perhitungan akan diimplementasikan nanti.</p>
+        </section>
+      </div>
+
+      <!-- Validation Modal -->
+      <div id="validationModal" class="fixed inset-0 flex items-center justify-center z-50 hidden pointer-events-none">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity duration-300 opacity-0" id="modalBackdrop"></div>
+        
+        <!-- Modal Content -->
+        <div class="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-sm relative transform scale-90 transition-all duration-300 opacity-0 z-10" id="modalContent">
+          <div class="text-center">
+            <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-100 mb-6 animate-bounce-short">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-slate-900 mb-2" data-i18n="input_tidak_valid">Input Tidak Valid</h3>
+            <p id="modalMessage" class="text-slate-600 mb-6" data-i18n="modal_message">Skor hanya diperbolehkan antara 0 - 30</p>
+            <button id="closeModalBtn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-xl shadow-lg shadow-indigo-200 transition duration-200 transform hover:-translate-y-0.5 active:translate-y-0 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" data-i18n="mengerti">
+              Mengerti
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

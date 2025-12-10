@@ -4,7 +4,7 @@ Hitung skor tes keterampilan bermain tenis meja
 
 🔗 **Live Demo:** [tenis.zxbaki.com](https://tenis.zxbaki.com)
 
-![App Screenshot](<img width="1602" height="914" alt="image" src="https://github.com/user-attachments/assets/13e4e7ca-7447-4205-b055-2327b06a8922" />)
+<img width="1602" height="914" alt="image" src="https://github.com/user-attachments/assets/13e4e7ca-7447-4205-b055-2327b06a8922" />
 
 ## ✨ Key Features
 
